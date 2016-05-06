@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Bugged Code";
+}
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("BuggedCode", "Home", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="number">Type a number:</label>
+        <input type="number" class="form-control" id="number" name="number">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+}
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+{
+    <p>@ViewBag.Message</p>   
+}

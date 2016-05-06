@@ -1,4 +1,4 @@
-﻿using System.Web;
+﻿using DemoAppInsights.Attributes;
 using System.Web.Mvc;
 
 namespace DemoAppInsights
@@ -7,7 +7,7 @@ namespace DemoAppInsights
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new AiHandleErrorAttribute());
         }
     }
 }
