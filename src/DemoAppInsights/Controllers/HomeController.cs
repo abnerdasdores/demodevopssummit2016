@@ -1,7 +1,9 @@
 ﻿using Microsoft.ApplicationInsights;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using DemoAppInsights.Models;
 
 namespace DemoAppInsights.Controllers
 {
@@ -30,29 +32,36 @@ namespace DemoAppInsights.Controllers
         {
             ViewBag.Message = "This is a really slow page.";
 
-            var sleepTime = new Random().Next(10, 20);
-            System.Threading.Thread.Sleep(sleepTime * 1000);
+            var context = new DemoAppInsightsContext();
+            for (var i = 0; i < 25; i++)
+            {
+                var products = context.Products.ToList();
+            }
 
             return View();
         }
 
-        public ActionResult BuggedCode()
+        public ActionResult BuggedCode(int? number)
         {
-            return View();
-        }
+            if (!number.HasValue)
+                return View();
 
-        [HttpPost]
-        public ActionResult BuggedCode(int number)
-        {
             var telemetryClient = new TelemetryClient();
             var eventProperties = new Dictionary<string, string> { { "number", number.ToString() } };
             telemetryClient.TrackEvent("NumberTyped", eventProperties);
 
-            if (IsPrime(number))
+            if (IsPrime(number.Value))
                 throw new InvalidOperationException("This is a prime number.");
-            
+
             ViewBag.Message = $"The number is {number}";
             return View();
+        }
+
+        public ActionResult Products()
+        {
+            var context = new DemoAppInsightsContext();
+            var products = context.Products.ToList();
+            return View(products);
         }
 
         private static bool IsPrime(int number)
@@ -60,7 +69,7 @@ namespace DemoAppInsights.Controllers
             if (number == 1) return false;
             if (number == 2) return true;
 
-            if (number % 2 == 0) return false; 
+            if (number % 2 == 0) return false;
 
             for (var i = 3; i < number; i += 2)
             {

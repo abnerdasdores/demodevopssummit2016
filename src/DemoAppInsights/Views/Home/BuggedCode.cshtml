@@ -3,11 +3,11 @@
 }
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("BuggedCode", "Home", FormMethod.Post))
+@using (Html.BeginForm("BuggedCode", "Home", FormMethod.Get))
 {
     <div class="form-group">
         <label for="number">Type a number:</label>
-        <input type="number" class="form-control" id="number" name="number">
+        <input class="form-control" id="number" name="number">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 }
